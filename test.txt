@@ -2,9 +2,9 @@
  * Copyright (C) 2016 FuZhong
  *
  *
- * @className:io.DirList2
+ * @className:io.DirList
  * @description:TODO
- * @date:2016-2-19 下午2:20:41
+ * @date:2016-2-19 下午2:01:50
  * @version:v1.0.0 
  * @author:WangHao
  * 
@@ -22,26 +22,10 @@ import java.io.FilenameFilter;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
-// Uses anonymous inner classes
+// Display a directory listing using regular expression
 // {Args: "D.*\.java"}
-public class DirList2
+public class DirList
 {
-	public static FilenameFilter filter(final String regex)
-	{
-		// Creation of anonymous inner class
-		return new FilenameFilter()
-		{
-			private Pattern pattern = Pattern.compile(regex);
-
-			public boolean accept(File dir, String name)
-			{
-				return pattern.matcher(name).matches();
-				// 两种匹配方法都可以，第二种简洁一点
-				// return Pattern.matches(regex, name);
-			}
-		};
-	}
-
 	public static void main(String[] args)
 	{
 		File path = new File(".");
@@ -49,9 +33,32 @@ public class DirList2
 		if (args.length == 0)
 			list = path.list();
 		else
-			list = path.list(filter(args[0]));
+			list = path.list(new DirFilter(args[0]));
 		Arrays.sort(list, String.CASE_INSENSITIVE_ORDER);
 		for (String dirItem : list)
 			System.out.println(dirItem);
 	}
+}
+
+class DirFilter implements FilenameFilter
+{
+	private Pattern pattern;
+
+	public DirFilter(String regex)
+	{
+		pattern = Pattern.compile(regex);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
+	 */
+	@Override
+	public boolean accept(File dir, String name)
+	{
+		// TODO Auto-generated method stub
+		return pattern.matcher(name).matches();
+	}
+
 }

@@ -1,0 +1,64 @@
+1: /**
+2:  * Copyright (C) 2016 FuZhong
+3:  *
+4:  *
+5:  * @className:io.DirList
+6:  * @description:TODO
+7:  * @date:2016-2-19 下午2:01:50
+8:  * @version:v1.0.0 
+9:  * @author:WangHao
+10:  * 
+11:  * Modification History:
+12:  * Date         Author      Version     Description
+13:  * -----------------------------------------------------------------
+14:  * 2016-2-19     WangHao       v1.0.0        create
+15:  *
+16:  *
+17:  */
+18: package io;
+19: 
+20: import java.io.File;
+21: import java.io.FilenameFilter;
+22: import java.util.Arrays;
+23: import java.util.regex.Pattern;
+24: 
+25: // Display a directory listing using regular expression
+26: // {Args: "D.*\.java"}
+27: public class DirList
+28: {
+29: 	public static void main(String[] args)
+30: 	{
+31: 		File path = new File(".");
+32: 		String[] list;
+33: 		if (args.length == 0)
+34: 			list = path.list();
+35: 		else
+36: 			list = path.list(new DirFilter(args[0]));
+37: 		Arrays.sort(list, String.CASE_INSENSITIVE_ORDER);
+38: 		for (String dirItem : list)
+39: 			System.out.println(dirItem);
+40: 	}
+41: }
+42: 
+43: class DirFilter implements FilenameFilter
+44: {
+45: 	private Pattern pattern;
+46: 
+47: 	public DirFilter(String regex)
+48: 	{
+49: 		pattern = Pattern.compile(regex);
+50: 	}
+51: 
+52: 	/*
+53: 	 * (non-Javadoc)
+54: 	 * 
+55: 	 * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
+56: 	 */
+57: 	@Override
+58: 	public boolean accept(File dir, String name)
+59: 	{
+60: 		// TODO Auto-generated method stub
+61: 		return pattern.matcher(name).matches();
+62: 	}
+63: 
+64: }
