@@ -22,7 +22,7 @@ import java.io.FileOutputStream;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-
+//Getting channels from streams
 public class GetChannel
 {
 	private static final int BSIZE = 1024;
