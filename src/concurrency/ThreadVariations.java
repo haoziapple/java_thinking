@@ -3,7 +3,7 @@
  *
  *
  * @className:concurrency.ThreadVariations
- * @description:TODO
+ * @description:
  * @date:2016-3-19 下午4:14:22
  * @version:v1.0.0 
  * @author:WangHao
@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 class InnerThread1
 {
 	private int countDown = 5;
+	@SuppressWarnings("unused")
 	private Inner inner;
 	private class Inner extends Thread
 	{
@@ -99,6 +100,7 @@ class InnerThread2
 class InnerRunnable1
 {
 	private int countDown = 5;
+	@SuppressWarnings("unused")
 	private Inner inner;
 	private class Inner implements Runnable
 	{
