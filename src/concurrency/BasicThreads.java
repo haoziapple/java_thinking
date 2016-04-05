@@ -24,6 +24,7 @@ public class BasicThreads
 		Thread t = new Thread(new Liftoff());
 		t.start();
 		System.out.println("Waiting for Liftoff");
+		System.out.println(System.getProperty("user.dir"));
 	}
 
 }

@@ -18,6 +18,7 @@
 package concurrency.component;
 
 import java.util.Random;
+import static java.lang.System.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
