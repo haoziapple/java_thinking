@@ -20,6 +20,7 @@ package corejava.streamio;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -115,8 +116,13 @@ public class TextFileTest
 
 }
 
-class Employee
+class Employee implements Serializable
 {
+	
+	 /**
+	 *
+	 */
+	private static final long serialVersionUID = 8086588460541201619L;
 	public static final int NAME_SIZE = 40;
 	public static final int RECORD_SIZE = 2 * NAME_SIZE + 8 + 4 + 4 + 4;
 	private Date hireDay;
