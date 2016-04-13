@@ -1,0 +1,123 @@
+/**
+ * Copyright (C) 2016 FuZhong
+ *
+ *
+ * @className:corejava.streamio.MemoryMapTest
+ * @description:TODO
+ * @date:2016-4-12 下午4:00:51
+ * @version:v1.0.0 
+ * @author:WangHao
+ * 
+ * Modification History:
+ * Date         Author      Version     Description
+ * -----------------------------------------------------------------
+ * 2016-4-12     WangHao       v1.0.0        create
+ *
+ *
+ */
+package corejava.streamio;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.RandomAccessFile;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.zip.CRC32;
+
+/**
+ * This program computes the CRC checksum of a file in four ways. Usage:
+ * java.memoryMap.MemoryMapTest filename
+ */
+public class MemoryMapTest
+{
+	public static long checksumInputStream(Path filename) throws IOException
+	{
+		InputStream in = Files.newInputStream(filename);
+		CRC32 crc = new CRC32();
+
+		int c;
+		while ((c = in.read()) != -1)
+			crc.update(c);
+		return crc.getValue();
+	}
+
+	public static long checksumByfferedInputStream(Path filename) throws IOException
+	{
+		InputStream in = new BufferedInputStream(Files.newInputStream(filename));
+		CRC32 crc = new CRC32();
+
+		int c;
+		while ((c = in.read()) != -1)
+			crc.update(c);
+		return crc.getValue();
+	}
+
+	public static long checksumRandomAccessFile(Path filename) throws IOException
+	{
+		RandomAccessFile file = new RandomAccessFile(filename.toFile(), "r");
+		long length = file.length();
+		CRC32 crc = new CRC32();
+
+		for (long p = 0; p < length; p++)
+		{
+			file.seek(p);
+			int c = file.readByte();
+			crc.update(c);
+		}
+		return crc.getValue();
+	}
+
+	public static long checksumMappedFile(Path filename) throws IOException
+	{
+		FileChannel channel = FileChannel.open(filename);
+		CRC32 crc = new CRC32();
+		int length = (int) channel.size();
+		MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, length);
+		for (int p = 0; p < length; p++)
+		{
+			int c = buffer.get(p);
+			crc.update(c);
+		}
+		return crc.getValue();
+	}
+
+	public static void main(String[] args) throws IOException
+	{
+		System.out.println("Input Stream:");
+
+		long start = System.currentTimeMillis();
+		Path filename = Paths.get(args[0]);
+		long crcValue = checksumInputStream(filename);
+		long end = System.currentTimeMillis();
+		System.out.println(Long.toHexString(crcValue));
+		System.out.println((end - start) + " milliseconds");
+
+		System.out.println("Buffered Input Stream:");
+		
+		start = System.currentTimeMillis();
+		crcValue = checksumByfferedInputStream(filename);
+		end = System.currentTimeMillis();
+		System.out.println(Long.toHexString(crcValue));
+		System.out.println((end - start) + "milliseconds");
+		
+		System.out.println("Random Access File:");
+		
+		start=System.currentTimeMillis();
+		crcValue=checksumRandomAccessFile(filename);
+		end=System.currentTimeMillis();
+		System.out.println(Long.toHexString(crcValue));
+		System.out.println((end-start)+" milliseconds");
+		
+		System.out.println("Mapped File:");
+		start=System.currentTimeMillis();
+		crcValue=checksumMappedFile(filename);
+		end=System.currentTimeMillis();
+		System.out.println(Long.toHexString(crcValue));
+		System.out.println((end-start)+" milliseconds");
+	}
+
+}
