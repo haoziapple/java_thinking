@@ -52,6 +52,7 @@ enum Category
 }
 public class VendingMachine
 {
+	@SuppressWarnings("unused")
 	private static State state = State.RESTING;
 	private static int amount = 0;
 	private static Input selection = null;
@@ -130,6 +131,7 @@ public class VendingMachine
 			}
 		};
 		
+		@SuppressWarnings("unused")
 		private boolean isTransient = false;
 		State(){};
 		State(StateDuration trans)
