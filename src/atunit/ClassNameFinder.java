@@ -28,6 +28,7 @@ import util.Directory;
 
 public class ClassNameFinder
 {
+	@SuppressWarnings("unused")
 	public static String thisClass(byte[] classBytes)
 	{
 		Map<Integer, Integer> offsetTable = new HashMap<Integer, Integer>();

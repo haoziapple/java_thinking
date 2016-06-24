@@ -116,6 +116,7 @@ public class AtUnit implements ProcessFiles.Strategy
 		}
 	}
 
+	@SuppressWarnings("serial")
 	static class TestMethods extends ArrayList<Method>
 	{
 		void addIfTestMethod(Method m)

@@ -17,6 +17,8 @@
  */
 package util;
 
+import java.io.PrintStream;
+
 /**
  * @className:util.Print
  * @description:打印字串
@@ -26,8 +28,25 @@ package util;
  */
 public class Print
 {
-	public static void print(String string)
+	public static void print(Object obj)
 	{
-		System.out.println(string);
+		System.out.println(obj);
+	}
+
+	public static void print()
+	{
+		System.out.println();
+	}
+
+	// Print with no line break;
+	public static void printnb(Object obj)
+	{
+		System.out.print(obj);
+	}
+
+	// The new Java SE5 printf() (from C):
+	public static PrintStream printf(String format, Object... args)
+	{
+		return System.out.printf(format, args);
 	}
 }
